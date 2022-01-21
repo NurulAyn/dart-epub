@@ -1,36 +1,39 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:archive/archive.dart';
-import 'package:dart2_constant/convert.dart' as convert;
 import 'package:xml/xml.dart' as xml;
+import '../utils/extensions.dart';
 
 class RootFilePathReader {
   static Future<String> getRootFilePath(Archive epubArchive) async {
-    const String EPUB_CONTAINER_FILE_PATH = "META-INF/container.xml";
+    const EPUB_CONTAINER_FILE_PATH = 'META-INF/container.xml';
 
-    ArchiveFile containerFileEntry = epubArchive.files.firstWhere(
-        (ArchiveFile file) => file.name == EPUB_CONTAINER_FILE_PATH,
-        orElse: () => null);
+    var containerFileEntry = epubArchive.files.firstWhereNullable(
+            (ArchiveFile file) => file.name == EPUB_CONTAINER_FILE_PATH);
+
     if (containerFileEntry == null) {
       throw Exception(
-          "EPUB parsing error: ${EPUB_CONTAINER_FILE_PATH} file not found in archive.");
+          'EPUB parsing error: $EPUB_CONTAINER_FILE_PATH file not found in archive.');
     }
 
-    xml.XmlDocument containerDocument =
-        xml.parse(convert.utf8.decode(containerFileEntry.content));
-    xml.XmlElement packageElement = containerDocument
-        .findAllElements("container",
-            namespace: "urn:oasis:names:tc:opendocument:xmlns:container")
-        .firstWhere((xml.XmlElement elem) => elem != null, orElse: () => null);
-    if (packageElement == null) {
-      throw Exception("EPUB parsing error: Invalid epub container");
+    var containerDocument =
+        xml.XmlDocument.parse(Utf8Codec().decode(containerFileEntry.content));
+
+    var packageElementList = containerDocument
+        .findAllElements('container',
+            namespace: 'urn:oasis:names:tc:opendocument:xmlns:container');
+    if (packageElementList.isEmpty) {
+      throw Exception('EPUB parsing error: Invalid epub container');
     }
 
-    xml.XmlElement rootFileElement = packageElement.descendants.firstWhere(
-        (xml.XmlNode testElem) =>
-            (testElem is xml.XmlElement) && "rootfile" == testElem.name.local,
-        orElse: () => null);
+    var rootFileElement = packageElementList.first.descendants.firstWhereNullable(
+            (xml.XmlNode testElem) =>
+        (testElem is xml.XmlElement) && 'rootfile' == testElem.name.local);
+    if (rootFileElement == null) {
+      throw Exception('EPUB parsing error: Invalid epub container. No root file.');
+    }
 
-    return rootFileElement.getAttribute("full-path");
+    return rootFileElement.getAttribute('full-path')!;
   }
 }

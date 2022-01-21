@@ -7,80 +7,81 @@ import 'package:epub/src/schema/navigation/epub_navigation_doc_title.dart';
 import 'package:epub/src/schema/opf/epub_guide.dart';
 import 'package:epub/src/schema/opf/epub_version.dart';
 import 'package:test/test.dart';
+import '../obj_ref.dart';
 
 main() async {
   var reference = new EpubSchema();
   reference
     ..Package = new EpubPackage()
     ..Navigation = new EpubNavigation()
-    ..ContentDirectoryPath = "some/random/path";
-  reference.Package.Version = EpubVersion.Epub2;
+    ..ContentDirectoryPath = 'some/random/path';
+  reference.Package!.Version = EpubVersion.Epub2;
 
-  EpubSchema testSchema;
+  var testSchema = ObjRef<EpubSchema>();
   setUp(() async {
-    testSchema = new EpubSchema();
-    testSchema
+    testSchema.value = new EpubSchema();
+    testSchema.value
       ..Package = reference.Package
       ..Navigation = reference.Navigation
       ..ContentDirectoryPath = reference.ContentDirectoryPath;
   });
   tearDown(() async {
-    testSchema = null;
+    testSchema.value = null;
   });
-  group("EpubSchema", () {
-    group(".equals", () {
-      test("is true for equivalent objects", () async {
-        expect(testSchema, equals(reference));
+  group('EpubSchema', () {
+    group('.equals', () {
+      test('is true for equivalent objects', () async {
+        expect(testSchema.value, equals(reference));
       });
 
-      test("is false when Package changes", () async {
+      test('is false when Package changes', () async {
         var package = new EpubPackage()
           ..Guide = new EpubGuide()
           ..Version = EpubVersion.Epub3;
 
-        testSchema.Package = package;
-        expect(testSchema, isNot(reference));
+        testSchema.value.Package = package;
+        expect(testSchema.value, isNot(reference));
       });
 
-      test("is false when Navigation changes", () async {
-        testSchema.Navigation = new EpubNavigation()
+      test('is false when Navigation changes', () async {
+        testSchema.value.Navigation = new EpubNavigation()
           ..DocTitle = new EpubNavigationDocTitle()
           ..DocAuthors = [new EpubNavigationDocAuthor()];
 
-        expect(testSchema, isNot(reference));
+        expect(testSchema.value, isNot(reference));
       });
 
-      test("is false when ContentDirectoryPath changes", () async {
-        testSchema.ContentDirectoryPath = "some/other/random/path/to/dev/null";
-        expect(testSchema, isNot(reference));
+      test('is false when ContentDirectoryPath changes', () async {
+        testSchema.value.ContentDirectoryPath = 'some/other/random/path/to/dev/null';
+        expect(testSchema.value, isNot(reference));
       });
     });
 
-    group(".hashCode", () {
-      test("is true for equivalent objects", () async {
-        expect(testSchema.hashCode, equals(reference.hashCode));
+    group('.hashCode', () {
+      test('is true for equivalent objects', () async {
+        expect(testSchema.value.hashCode, equals(reference.hashCode));
       });
 
-      test("is false when Package changes", () async {
+      test('is false when Package changes', () async {
         var package = new EpubPackage()
           ..Guide = new EpubGuide()
           ..Version = EpubVersion.Epub3;
 
-        testSchema.Package = package;
-        expect(testSchema.hashCode, isNot(reference.hashCode));
+        testSchema.value.Package = package;
+        expect(testSchema.value.hashCode, isNot(reference.hashCode));
       });
 
-      test("is false when Navigation changes", () async {
-        testSchema.Navigation = new EpubNavigation()
+      test('is false when Navigation changes', () async {
+        testSchema.value.Navigation = new EpubNavigation()
           ..DocTitle = new EpubNavigationDocTitle()
           ..DocAuthors = [new EpubNavigationDocAuthor()];
 
-        expect(testSchema.hashCode, isNot(reference.hashCode));
+        expect(testSchema.value.hashCode, isNot(reference.hashCode));
       });
 
-      test("is false when ContentDirectoryPath changes", () async {
-        testSchema.ContentDirectoryPath = "some/other/random/path/to/dev/null";
-        expect(testSchema.hashCode, isNot(reference.hashCode));
+      test('is false when ContentDirectoryPath changes', () async {
+        testSchema.value.ContentDirectoryPath = 'some/other/random/path/to/dev/null';
+        expect(testSchema.value.hashCode, isNot(reference.hashCode));
       });
     });
   });

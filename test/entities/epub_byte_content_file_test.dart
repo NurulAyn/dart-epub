@@ -2,20 +2,21 @@ library epubreadertest;
 
 import 'package:epub/epub.dart';
 import 'package:test/test.dart';
+import '../obj_ref.dart';
 
 main() async {
   var reference = new EpubByteContentFile();
   reference
     ..Content = [0, 1, 2, 3]
-    ..ContentMimeType = "application/test"
+    ..ContentMimeType = 'application/test'
     ..ContentType = EpubContentType.OTHER
-    ..FileName = "orthrosFile";
-
-  EpubByteContentFile testFile;
+    ..FileName = 'orthrosFile';
+  
+  var testFile = ObjRef<EpubByteContentFile>();
 
   setUp(() async {
-    testFile = new EpubByteContentFile();
-    testFile
+    testFile.value = new EpubByteContentFile();
+    testFile.value
       ..Content = reference.Content
       ..ContentMimeType = reference.ContentMimeType
       ..ContentType = reference.ContentType
@@ -23,56 +24,56 @@ main() async {
   });
 
   tearDown(() async {
-    testFile = null;
+    testFile.value = null;
   });
 
-  group("EpubByteContentFile", () {
-    test(".equals is true for equivalent objects", () async {
-      expect(testFile, equals(reference));
+  group('EpubByteContentFile', () {
+    test('.equals is true for equivalent objects', () async {
+      expect(testFile.value, equals(reference));
     });
 
-    test(".equals is false when Content changes", () async {
-      testFile.Content = [3, 2, 1, 0];
-      expect(testFile, isNot(reference));
+    test('.equals is false when Content changes', () async {
+      testFile.value.Content = [3, 2, 1, 0];
+      expect(testFile.value, isNot(reference));
     });
 
-    test(".equals is false when ContentMimeType changes", () async {
-      testFile.ContentMimeType = "application/different";
-      expect(testFile, isNot(reference));
+    test('.equals is false when ContentMimeType changes', () async {
+      testFile.value.ContentMimeType = 'application/different';
+      expect(testFile.value, isNot(reference));
     });
 
-    test(".equals is false when ContentType changes", () async {
-      testFile.ContentType = EpubContentType.CSS;
-      expect(testFile, isNot(reference));
+    test('.equals is false when ContentType changes', () async {
+      testFile.value.ContentType = EpubContentType.CSS;
+      expect(testFile.value, isNot(reference));
     });
 
-    test(".equals is false when FileName changes", () async {
-      testFile.FileName = "a_different_file_name.txt";
-      expect(testFile, isNot(reference));
+    test('.equals is false when FileName changes', () async {
+      testFile.value.FileName = 'a_different_file_name.txt';
+      expect(testFile.value, isNot(reference));
     });
 
-    test(".hashCode is the same for equivalent content", () async {
-      expect(testFile.hashCode, equals(reference.hashCode));
+    test('.hashCode is the same for equivalent content', () async {
+      expect(testFile.value.hashCode, equals(reference.hashCode));
     });
 
     test('.hashCode changes when Content changes', () async {
-      testFile.Content = [3, 2, 1, 0];
-      expect(testFile.hashCode, isNot(reference.hashCode));
+      testFile.value.Content = [3, 2, 1, 0];
+      expect(testFile.value.hashCode, isNot(reference.hashCode));
     });
 
     test('.hashCode changes when ContentMimeType changes', () async {
-      testFile.ContentMimeType = "application/orthros";
-      expect(testFile.hashCode, isNot(reference.hashCode));
+      testFile.value.ContentMimeType = 'application/orthros';
+      expect(testFile.value.hashCode, isNot(reference.hashCode));
     });
 
     test('.hashCode changes when ContentType changes', () async {
-      testFile.ContentType = EpubContentType.CSS;
-      expect(testFile.hashCode, isNot(reference.hashCode));
+      testFile.value.ContentType = EpubContentType.CSS;
+      expect(testFile.value.hashCode, isNot(reference.hashCode));
     });
 
     test('.hashCode changes when FileName changes', () async {
-      testFile.FileName = "a_different_file_name";
-      expect(testFile.hashCode, isNot(reference.hashCode));
+      testFile.value.FileName = 'a_different_file_name';
+      expect(testFile.value.hashCode, isNot(reference.hashCode));
     });
   });
 }

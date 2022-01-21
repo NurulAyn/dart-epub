@@ -6,36 +6,37 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import 'package:epub/epub.dart';
+import 'obj_ref.dart';
 
 main() async {
-  String fileName = "hittelOnGoldMines.epub";
+  String fileName = 'hittelOnGoldMines.epub';
   String fullPath =
-      path.join(io.Directory.current.path, "test", "res", fileName);
+      path.join(io.Directory.current.path, 'test', 'res', fileName);
   var targetFile = new io.File(fullPath);
   if (!(await targetFile.exists())) {
-    throw new Exception("Specified epub file not found: ${fullPath}");
+    throw new Exception('Specified epub file not found: ${fullPath}');
   }
 
   List<int> bytes = await targetFile.readAsBytes();
-  test("Test Epub Ref", () async {
+  test('Test Epub Ref', () async {
     EpubBookRef epubRef = await EpubReader.openBook(bytes);
 
-    expect(epubRef.Author, equals("John S. Hittell"));
-    expect(epubRef.Title, equals("Hittel on Gold Mines and Mining"));
+    expect(epubRef.Author, equals('John S. Hittell'));
+    expect(epubRef.Title, equals('Hittel on Gold Mines and Mining'));
   });
-  test("Test Epub Read", () async {
+  test('Test Epub Read', () async {
     EpubBook epubRef = await EpubReader.readBook(bytes);
 
-    expect(epubRef.Author, equals("John S. Hittell"));
-    expect(epubRef.Title, equals("Hittel on Gold Mines and Mining"));
+    expect(epubRef.Author, equals('John S. Hittell'));
+    expect(epubRef.Title, equals('Hittel on Gold Mines and Mining'));
   });
 
-  test("Test can read", () async {
+  test('Test can read', () async {
     String baseName =
-        path.join(io.Directory.current.path, "test", "res", "std");
+        path.join(io.Directory.current.path, 'test', 'res', 'std');
     io.Directory baseDir = new io.Directory(baseName);
     if (!(await baseDir.exists())) {
-      throw new Exception("Base path does not exist: ${baseName}");
+      throw new Exception('Base path does not exist: ${baseName}');
     }
 
     await baseDir
@@ -47,17 +48,17 @@ main() async {
         EpubBook book = await EpubReader.readBook(bytes);
         expect(book, isNotNull);
       } catch (e) {
-        print("File: ${fe.path}, Exception: ${e}");
-        fail("Caught error...");
+        print('File: ${fe.path}, Exception: ${e}');
+        fail('Caught error...');
       }
     });
   });
 
-  test("Test can open", () async {
-    var baseName = path.join(io.Directory.current.path, "test", "res", "std");
+  test('Test can open', () async {
+    var baseName = path.join(io.Directory.current.path, 'test', 'res', 'std');
     var baseDir = new io.Directory(baseName);
     if (!(await baseDir.exists())) {
-      throw new Exception("Base path does not exist: ${baseName}");
+      throw new Exception('Base path does not exist: ${baseName}');
     }
 
     await baseDir
@@ -69,8 +70,8 @@ main() async {
         var ref = await EpubReader.openBook(bytes);
         expect(ref, isNotNull);
       } catch (e) {
-        print("File: ${fe.path}, Exception: ${e}");
-        fail("Caught error...");
+        print('File: ${fe.path}, Exception: ${e}');
+        fail('Caught error...');
       }
     });
   });

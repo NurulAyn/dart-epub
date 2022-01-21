@@ -1,20 +1,18 @@
-import 'package:quiver/core.dart';
 
 class EpubMetadataContributor {
-  String Contributor;
-  String FileAs;
-  String Role;
+  String? Contributor;
+  String? FileAs;
+  String? Role;
 
   @override
   int get hashCode =>
-      hash3(Contributor.hashCode, FileAs.hashCode, Role.hashCode);
+      Object.hash(Contributor, FileAs, Role);
 
-  bool operator ==(other) {
-    var otherAs = other as EpubMetadataContributor;
-    if (otherAs == null) return false;
-
-    return Contributor == otherAs.Contributor &&
-        FileAs == otherAs.FileAs &&
-        Role == otherAs.Role;
+  @override
+  bool operator ==(Object? other) {
+    return other is EpubMetadataContributor &&
+      Contributor == other.Contributor &&
+      FileAs == other.FileAs &&
+      Role == other.Role;
   }
 }

@@ -6,6 +6,7 @@ import 'package:epub/src/schema/opf/epub_spine_item_ref.dart';
 import 'package:test/test.dart';
 
 import '../../random_data_generator.dart';
+import '../../obj_ref.dart';
 
 main() async {
   final int length = 10;
@@ -15,42 +16,42 @@ main() async {
     ..IsLinear = true
     ..IdRef = randomString.randomAlpha(length);
 
-  EpubSpineItemRef testSpineItemRef;
+  var testSpineItemRef = ObjRef<EpubSpineItemRef>();
   setUp(() async {
-    testSpineItemRef = new EpubSpineItemRef()
+    testSpineItemRef.value = new EpubSpineItemRef()
       ..IsLinear = reference.IsLinear
       ..IdRef = reference.IdRef;
   });
   tearDown(() async {
-    testSpineItemRef = null;
+    testSpineItemRef.value = null;
   });
 
-  group("EpubSpineItemRef", () {
-    group(".equals", () {
-      test("is true for equivalent objects", () async {
-        expect(testSpineItemRef, equals(reference));
+  group('EpubSpineItemRef', () {
+    group('.equals', () {
+      test('is true for equivalent objects', () async {
+        expect(testSpineItemRef.value, equals(reference));
       });
-      test("is false when IsLinear changes", () async {
-        testSpineItemRef.IsLinear = !testSpineItemRef.IsLinear;
-        expect(testSpineItemRef, isNot(reference));
+      test('is false when IsLinear changes', () async {
+        testSpineItemRef.value.IsLinear = !testSpineItemRef.value.IsLinear!;
+        expect(testSpineItemRef.value, isNot(reference));
       });
-      test("is false when IdRef changes", () async {
-        testSpineItemRef.IdRef = randomString.randomAlpha(length);
-        expect(testSpineItemRef, isNot(reference));
+      test('is false when IdRef changes', () async {
+        testSpineItemRef.value.IdRef = randomString.randomAlpha(length);
+        expect(testSpineItemRef.value, isNot(reference));
       });
     });
 
-    group(".hashCode", () {
-      test("is true for equivalent objects", () async {
-        expect(testSpineItemRef.hashCode, equals(reference.hashCode));
+    group('.hashCode', () {
+      test('is true for equivalent objects', () async {
+        expect(testSpineItemRef.value.hashCode, equals(reference.hashCode));
       });
-      test("is false when IsLinear changes", () async {
-        testSpineItemRef.IsLinear = !testSpineItemRef.IsLinear;
-        expect(testSpineItemRef.hashCode, isNot(reference.hashCode));
+      test('is false when IsLinear changes', () async {
+        testSpineItemRef.value.IsLinear = !testSpineItemRef.value.IsLinear!;
+        expect(testSpineItemRef.value.hashCode, isNot(reference.hashCode));
       });
-      test("is false when IdRef changes", () async {
-        testSpineItemRef.IdRef = randomString.randomAlpha(length);
-        expect(testSpineItemRef.hashCode, isNot(reference.hashCode));
+      test('is false when IdRef changes', () async {
+        testSpineItemRef.value.IdRef = randomString.randomAlpha(length);
+        expect(testSpineItemRef.value.hashCode, isNot(reference.hashCode));
       });
     });
   });

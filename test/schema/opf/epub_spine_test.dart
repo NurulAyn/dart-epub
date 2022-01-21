@@ -7,6 +7,7 @@ import 'package:epub/src/schema/opf/epub_spine_item_ref.dart';
 import 'package:test/test.dart';
 
 import '../../random_data_generator.dart';
+import '../../obj_ref.dart';
 
 main() async {
   final int length = 10;
@@ -20,50 +21,50 @@ main() async {
     ]
     ..TableOfContents = randomString.randomAlpha(length);
 
-  EpubSpine testSpine;
+  var testSpine = ObjRef<EpubSpine>();
   setUp(() async {
-    testSpine = new EpubSpine()
-      ..Items = List.from(reference.Items)
+    testSpine.value = new EpubSpine()
+      ..Items = List.from(reference.Items!)
       ..TableOfContents = reference.TableOfContents;
   });
   tearDown(() async {
-    testSpine = null;
+    testSpine.value = null;
   });
 
-  group("EpubSpine", () {
-    group(".equals", () {
-      test("is true for equivalent objects", () async {
-        expect(testSpine, equals(reference));
+  group('EpubSpine', () {
+    group('.equals', () {
+      test('is true for equivalent objects', () async {
+        expect(testSpine.value, equals(reference));
       });
-      test("is false when Items changes", () async {
-        testSpine.Items = [
+      test('is false when Items changes', () async {
+        testSpine.value.Items = [
           new EpubSpineItemRef()
             ..IdRef = randomString.randomAlpha(length)
             ..IsLinear = false
         ];
-        expect(testSpine, isNot(reference));
+        expect(testSpine.value, isNot(reference));
       });
-      test("is false when TableOfContents changes", () async {
-        testSpine.TableOfContents = randomString.randomAlpha(length);
-        expect(testSpine, isNot(reference));
+      test('is false when TableOfContents changes', () async {
+        testSpine.value.TableOfContents = randomString.randomAlpha(length);
+        expect(testSpine.value, isNot(reference));
       });
     });
 
-    group(".hashCode", () {
-      test("is true for equivalent objects", () async {
-        expect(testSpine.hashCode, equals(reference.hashCode));
+    group('.hashCode', () {
+      test('is true for equivalent objects', () async {
+        expect(testSpine.value.hashCode, equals(reference.hashCode));
       });
-      test("is false when IsLinear changes", () async {
-        testSpine.Items = [
+      test('is false when IsLinear changes', () async {
+        testSpine.value.Items = [
           new EpubSpineItemRef()
             ..IdRef = randomString.randomAlpha(length)
             ..IsLinear = false
         ];
-        expect(testSpine.hashCode, isNot(reference.hashCode));
+        expect(testSpine.value.hashCode, isNot(reference.hashCode));
       });
-      test("is false when TableOfContents changes", () async {
-        testSpine.TableOfContents = randomString.randomAlpha(length);
-        expect(testSpine.hashCode, isNot(reference.hashCode));
+      test('is false when TableOfContents changes', () async {
+        testSpine.value.TableOfContents = randomString.randomAlpha(length);
+        expect(testSpine.value.hashCode, isNot(reference.hashCode));
       });
     });
   });

@@ -6,6 +6,7 @@ import 'package:epub/src/schema/navigation/epub_navigation_label.dart';
 import 'package:test/test.dart';
 
 import '../../random_data_generator.dart';
+import '../../obj_ref.dart';
 
 main() async {
   final RandomDataGenerator generator =
@@ -13,33 +14,33 @@ main() async {
 
   final EpubNavigationLabel reference = generator.randomEpubNavigationLabel();
 
-  EpubNavigationLabel testNavigationLabel;
+  var testNavigationLabel = ObjRef<EpubNavigationLabel>();
   setUp(() async {
-    testNavigationLabel = new EpubNavigationLabel()..Text = reference.Text;
+    testNavigationLabel.value = new EpubNavigationLabel()..Text = reference.Text;
   });
   tearDown(() async {
-    testNavigationLabel = null;
+    testNavigationLabel.value = null;
   });
-  group("EpubNavigationLabel", () {
-    group(".equals", () {
-      test("is true for equivalent objects", () async {
-        expect(testNavigationLabel, equals(reference));
+  group('EpubNavigationLabel', () {
+    group('.equals', () {
+      test('is true for equivalent objects', () async {
+        expect(testNavigationLabel.value, equals(reference));
       });
 
-      test("is false when Text changes", () async {
-        testNavigationLabel.Text = generator.randomString();
-        expect(testNavigationLabel, isNot(reference));
+      test('is false when Text changes', () async {
+        testNavigationLabel.value.Text = generator.randomString();
+        expect(testNavigationLabel.value, isNot(reference));
       });
     });
 
-    group(".hashCode", () {
-      test("is true for equivalent objects", () async {
-        expect(testNavigationLabel.hashCode, equals(reference.hashCode));
+    group('.hashCode', () {
+      test('is true for equivalent objects', () async {
+        expect(testNavigationLabel.value.hashCode, equals(reference.hashCode));
       });
 
-      test("is false when Metadata changes", () async {
-        testNavigationLabel.Text = generator.randomString();
-        expect(testNavigationLabel.hashCode, isNot(reference.hashCode));
+      test('is false when Metadata changes', () async {
+        testNavigationLabel.value.Text = generator.randomString();
+        expect(testNavigationLabel.value.hashCode, isNot(reference.hashCode));
       });
     });
   });

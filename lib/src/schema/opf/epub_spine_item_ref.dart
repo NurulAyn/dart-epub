@@ -1,22 +1,21 @@
-import 'package:quiver/core.dart';
+
 
 class EpubSpineItemRef {
-  String IdRef;
-  bool IsLinear;
+  String? IdRef;
+  bool? IsLinear;
 
   @override
-  int get hashCode => hash2(IdRef.hashCode, IsLinear.hashCode);
+  int get hashCode => Object.hash(IdRef, IsLinear);
 
-  bool operator ==(other) {
-    var otherAs = other as EpubSpineItemRef;
-    if (otherAs == null) {
-      return false;
-    }
-
-    return IdRef == otherAs.IdRef && IsLinear == otherAs.IsLinear;
+  @override
+  bool operator ==(Object? other) {
+    return other is EpubSpineItemRef &&
+      IdRef == other.IdRef &&
+      IsLinear == other.IsLinear;
   }
 
+  @override
   String toString() {
-    return "IdRef: ${IdRef}";
+    return 'IdRef: $IdRef';
   }
 }

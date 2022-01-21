@@ -6,6 +6,7 @@ import 'package:epub/src/schema/navigation/epub_navigation_head.dart';
 import 'package:test/test.dart';
 
 import '../../random_data_generator.dart';
+import '../../obj_ref.dart';
 
 main() async {
   final RandomDataGenerator generator =
@@ -13,34 +14,34 @@ main() async {
 
   final EpubNavigationHead reference = generator.randomEpubNavigationHead();
 
-  EpubNavigationHead testGuideReference;
+  var testGuideReference = ObjRef<EpubNavigationHead>();
   setUp(() async {
-    testGuideReference = new EpubNavigationHead()
+    testGuideReference.value = new EpubNavigationHead()
       ..Metadata = List.from(reference.Metadata);
   });
   tearDown(() async {
-    testGuideReference = null;
+    testGuideReference.value = null;
   });
-  group("EpubNavigationHead", () {
-    group(".equals", () {
-      test("is true for equivalent objects", () async {
-        expect(testGuideReference, equals(reference));
+  group('EpubNavigationHead', () {
+    group('.equals', () {
+      test('is true for equivalent objects', () async {
+        expect(testGuideReference.value, equals(reference));
       });
 
-      test("is false when Metadata changes", () async {
-        testGuideReference.Metadata.add(generator.randomNavigationHeadMeta());
-        expect(testGuideReference, isNot(reference));
+      test('is false when Metadata changes', () async {
+        testGuideReference.value.Metadata.add(generator.randomNavigationHeadMeta());
+        expect(testGuideReference.value, isNot(reference));
       });
     });
 
-    group(".hashCode", () {
-      test("is true for equivalent objects", () async {
-        expect(testGuideReference.hashCode, equals(reference.hashCode));
+    group('.hashCode', () {
+      test('is true for equivalent objects', () async {
+        expect(testGuideReference.value.hashCode, equals(reference.hashCode));
       });
 
-      test("is false when Metadata changes", () async {
-        testGuideReference.Metadata.add(generator.randomNavigationHeadMeta());
-        expect(testGuideReference.hashCode, isNot(reference.hashCode));
+      test('is false when Metadata changes', () async {
+        testGuideReference.value.Metadata.add(generator.randomNavigationHeadMeta());
+        expect(testGuideReference.value.hashCode, isNot(reference.hashCode));
       });
     });
   });

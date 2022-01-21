@@ -4,6 +4,7 @@ import 'package:archive/archive.dart';
 import 'package:epub/epub.dart';
 import 'package:epub/src/ref_entities/epub_byte_content_file_ref.dart';
 import 'package:test/test.dart';
+import '../obj_ref.dart';
 
 main() async {
   Archive arch = new Archive();
@@ -11,67 +12,67 @@ main() async {
 
   var reference = new EpubByteContentFileRef(ref);
   reference
-    ..ContentMimeType = "application/test"
+    ..ContentMimeType = 'application/test'
     ..ContentType = EpubContentType.OTHER
-    ..FileName = "orthrosFile";
+    ..FileName = 'orthrosFile';
 
-  EpubByteContentFileRef testFileRef;
+  var testFileRef = ObjRef<EpubByteContentFileRef>();
 
   setUp(() async {
     Archive arch2 = new Archive();
     EpubBookRef ref2 = new EpubBookRef(arch2);
 
-    testFileRef = new EpubByteContentFileRef(ref2);
-    testFileRef
+    testFileRef.value = new EpubByteContentFileRef(ref2);
+    testFileRef.value
       ..ContentMimeType = reference.ContentMimeType
       ..ContentType = reference.ContentType
       ..FileName = reference.FileName;
   });
 
   tearDown(() async {
-    testFileRef = null;
+    testFileRef.value = null;
   });
 
-  group("EpubByteContentFileRef", () {
-    group(".equals", () {
-      test("is true for equivalent objects", () async {
-        expect(testFileRef, equals(reference));
+  group('EpubByteContentFileRef', () {
+    group('.equals', () {
+      test('is true for equivalent objects', () async {
+        expect(testFileRef.value, equals(reference));
       });
 
-      test("is false when ContentMimeType changes", () async {
-        testFileRef.ContentMimeType = "application/different";
-        expect(testFileRef, isNot(reference));
+      test('is false when ContentMimeType changes', () async {
+        testFileRef.value.ContentMimeType = 'application/different';
+        expect(testFileRef.value, isNot(reference));
       });
 
-      test("is false when ContentType changes", () async {
-        testFileRef.ContentType = EpubContentType.CSS;
-        expect(testFileRef, isNot(reference));
+      test('is false when ContentType changes', () async {
+        testFileRef.value.ContentType = EpubContentType.CSS;
+        expect(testFileRef.value, isNot(reference));
       });
 
-      test("is false when FileName changes", () async {
-        testFileRef.FileName = "a_different_file_name.txt";
-        expect(testFileRef, isNot(reference));
+      test('is false when FileName changes', () async {
+        testFileRef.value.FileName = 'a_different_file_name.txt';
+        expect(testFileRef.value, isNot(reference));
       });
     });
 
-    group(".hashCode", () {
-      test("is the same for equivalent content", () async {
-        expect(testFileRef.hashCode, equals(reference.hashCode));
+    group('.hashCode', () {
+      test('is the same for equivalent content', () async {
+        expect(testFileRef.value.hashCode, equals(reference.hashCode));
       });
 
       test('changes when ContentMimeType changes', () async {
-        testFileRef.ContentMimeType = "application/orthros";
-        expect(testFileRef.hashCode, isNot(reference.hashCode));
+        testFileRef.value.ContentMimeType = 'application/orthros';
+        expect(testFileRef.value.hashCode, isNot(reference.hashCode));
       });
 
       test('changes when ContentType changes', () async {
-        testFileRef.ContentType = EpubContentType.CSS;
-        expect(testFileRef.hashCode, isNot(reference.hashCode));
+        testFileRef.value.ContentType = EpubContentType.CSS;
+        expect(testFileRef.value.hashCode, isNot(reference.hashCode));
       });
 
       test('changes when FileName changes', () async {
-        testFileRef.FileName = "a_different_file_name";
-        expect(testFileRef.hashCode, isNot(reference.hashCode));
+        testFileRef.value.FileName = 'a_different_file_name';
+        expect(testFileRef.value.hashCode, isNot(reference.hashCode));
       });
     });
   });

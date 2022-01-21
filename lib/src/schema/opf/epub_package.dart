@@ -1,4 +1,4 @@
-import 'package:quiver/core.dart';
+
 
 import 'epub_guide.dart';
 import 'epub_manifest.dart';
@@ -7,31 +7,28 @@ import 'epub_spine.dart';
 import 'epub_version.dart';
 
 class EpubPackage {
-  EpubVersion Version;
-  EpubMetadata Metadata;
-  EpubManifest Manifest;
-  EpubSpine Spine;
-  EpubGuide Guide;
+  EpubVersion? Version;
+  EpubMetadata? Metadata;
+  EpubManifest? Manifest;
+  EpubSpine? Spine;
+  EpubGuide? Guide;
 
   @override
-  int get hashCode => hashObjects([
-        Version.hashCode,
-        Metadata.hashCode,
-        Manifest.hashCode,
-        Spine.hashCode,
-        Guide.hashCode
-      ]);
+  int get hashCode => Object.hash(
+        Version,
+        Metadata,
+        Manifest,
+        Spine,
+        Guide
+      );
 
-  bool operator ==(other) {
-    var otherAs = other as EpubPackage;
-    if (otherAs == null) {
-      return false;
-    }
-
-    return Version == otherAs.Version &&
-        Metadata == otherAs.Metadata &&
-        Manifest == otherAs.Manifest &&
-        Spine == otherAs.Spine &&
-        Guide == otherAs.Guide;
+  @override
+  bool operator ==(Object? other) {
+    return other is EpubPackage &&
+      Version == other.Version &&
+      Metadata == other.Metadata &&
+      Manifest == other.Manifest &&
+      Spine == other.Spine &&
+      Guide == other.Guide;
   }
 }

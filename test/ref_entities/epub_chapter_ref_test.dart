@@ -5,6 +5,7 @@ import 'package:epub/epub.dart';
 import 'package:epub/src/ref_entities/epub_chapter_ref.dart';
 import 'package:epub/src/ref_entities/epub_text_content_file_ref.dart';
 import 'package:test/test.dart';
+import '../obj_ref.dart';
 
 main() async {
   var arch = new Archive();
@@ -13,20 +14,20 @@ main() async {
   var reference = new EpubChapterRef(contentFileRef);
 
   reference
-    ..Anchor = "anchor"
-    ..ContentFileName = "orthros"
+    ..Anchor = 'anchor'
+    ..ContentFileName = 'orthros'
     ..SubChapters = []
-    ..Title = "A New Look at Chapters";
+    ..Title = 'A New Look at Chapters';
 
-  EpubBookRef bookRef2;
-  EpubChapterRef testChapterRef;
+  var bookRef2 = ObjRef<EpubBookRef>();
+  var testChapterRef = ObjRef<EpubChapterRef>();
   setUp(() async {
     var arch2 = new Archive();
-    bookRef2 = new EpubBookRef(arch2);
-    var contentFileRef2 = new EpubTextContentFileRef(bookRef2);
+    bookRef2.value = new EpubBookRef(arch2);
+    var contentFileRef2 = new EpubTextContentFileRef(bookRef2.value);
 
-    testChapterRef = new EpubChapterRef(contentFileRef2);
-    testChapterRef
+    testChapterRef.value = new EpubChapterRef(contentFileRef2);
+    testChapterRef.value
       ..Anchor = reference.Anchor
       ..ContentFileName = reference.ContentFileName
       ..SubChapters = reference.SubChapters
@@ -34,73 +35,73 @@ main() async {
   });
 
   tearDown(() async {
-    testChapterRef = null;
-    bookRef2 = null;
+    testChapterRef.value = null;
+    bookRef2.value = null;
   });
-  group("EpubChapterRef", () {
-    group(".equals", () {
-      test("is true for equivalent objects", () async {
-        expect(testChapterRef, equals(reference));
+  group('EpubChapterRef', () {
+    group('.equals', () {
+      test('is true for equivalent objects', () async {
+        expect(testChapterRef.value, equals(reference));
       });
 
-      test("is false when Anchor changes", () async {
-        testChapterRef.Anchor = "NotAnAnchor";
-        expect(testChapterRef, isNot(reference));
+      test('is false when Anchor changes', () async {
+        testChapterRef.value.Anchor = 'NotAnAnchor';
+        expect(testChapterRef.value, isNot(reference));
       });
 
-      test("is false when ContentFileName changes", () async {
-        testChapterRef.ContentFileName = "NotOrthros";
-        expect(testChapterRef, isNot(reference));
+      test('is false when ContentFileName changes', () async {
+        testChapterRef.value.ContentFileName = 'NotOrthros';
+        expect(testChapterRef.value, isNot(reference));
       });
 
-      test("is false when SubChapters changes", () async {
-        var subchapterContentFileRef = new EpubTextContentFileRef(bookRef2);
+      test('is false when SubChapters changes', () async {
+        var subchapterContentFileRef = new EpubTextContentFileRef(bookRef2.value);
         var chapter = new EpubChapterRef(subchapterContentFileRef);
         chapter
-          ..Title = "A Brave new Epub"
-          ..ContentFileName = "orthros.txt";
-        testChapterRef.SubChapters = [chapter];
-        expect(testChapterRef, isNot(reference));
+          ..Title = 'A Brave new Epub'
+          ..ContentFileName = 'orthros.txt';
+        testChapterRef.value.SubChapters = [chapter];
+        expect(testChapterRef.value, isNot(reference));
       });
 
-      test("is false when Title changes", () async {
-        testChapterRef.Title = "A Boring Old World";
-        expect(testChapterRef, isNot(reference));
+      test('is false when Title changes', () async {
+        testChapterRef.value.Title = 'A Boring Old World';
+        expect(testChapterRef.value, isNot(reference));
       });
     });
 
-    group(".hashCode", () {
-      test("is true for equivalent objects", () async {
-        expect(testChapterRef.hashCode, equals(reference.hashCode));
+    group('.hashCode', () {
+      test('is true for equivalent objects', () async {
+        expect(testChapterRef.value.hashCode, equals(reference.hashCode));
       });
 
-      test("is true for equivalent objects", () async {
-        expect(testChapterRef.hashCode, equals(reference.hashCode));
+      test('is true for equivalent objects', () async {
+        expect(testChapterRef.value.hashCode, equals(reference.hashCode));
       });
 
-      test("is false when Anchor changes", () async {
-        testChapterRef.Anchor = "NotAnAnchor";
-        expect(testChapterRef.hashCode, isNot(reference.hashCode));
+      test('is false when Anchor changes', () async {
+        testChapterRef.value.Anchor = 'NotAnAnchor';
+        expect(testChapterRef.value.hashCode, isNot(reference.hashCode));
       });
 
-      test("is false when ContentFileName changes", () async {
-        testChapterRef.ContentFileName = "NotOrthros";
-        expect(testChapterRef.hashCode, isNot(reference.hashCode));
+      test('is false when ContentFileName changes', () async {
+        testChapterRef.value.ContentFileName = 'NotOrthros';
+        expect(testChapterRef.value.hashCode, isNot(reference.hashCode));
       });
 
-      test("is false when SubChapters changes", () async {
-        var subchapterContentFileRef = new EpubTextContentFileRef(bookRef2);
+      test('is false when SubChapters changes', () async {
+        var subchapterContentFileRef = new EpubTextContentFileRef(bookRef2.value);
         var chapter = new EpubChapterRef(subchapterContentFileRef);
         chapter
-          ..Title = "A Brave new Epub"
-          ..ContentFileName = "orthros.txt";
-        testChapterRef.SubChapters = [chapter];
-        expect(testChapterRef, isNot(reference));
+          ..Title = 'A Brave new Epub'
+          ..ContentFileName = 'orthros.txt';
+        testChapterRef.value.SubChapters = [chapter];
+        expect(testChapterRef.value, isNot(reference));
       });
 
-      test("is false when Title changes", () async {
-        testChapterRef.Title = "A Boring Old World";
-        expect(testChapterRef.hashCode, isNot(reference.hashCode));
+      test('is false when Title changes', () async {
+        testChapterRef.value.Title = 'A Boring Old World';
+        expect(testChapterRef.value.hashCode, isNot(reference.hashCode));
       });
     });
   });

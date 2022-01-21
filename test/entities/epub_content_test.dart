@@ -2,96 +2,97 @@ library epubreadertest;
 
 import 'package:epub/epub.dart';
 import 'package:test/test.dart';
+import '../obj_ref.dart';
 
 main() async {
   var reference = new EpubContent();
 
-  EpubContent testContent;
-  EpubTextContentFile textContentFile;
-  EpubByteContentFile byteContentFile;
+  var testContent = ObjRef<EpubContent>();
+  var textContentFile = ObjRef<EpubTextContentFile>();
+  var byteContentFile = ObjRef<EpubByteContentFile>();
 
   setUp(() async {
-    testContent = new EpubContent();
+    testContent.value = new EpubContent();
 
-    textContentFile = new EpubTextContentFile();
-    textContentFile
-      ..Content = "Some string"
-      ..ContentMimeType = "application/text"
+    textContentFile.value = new EpubTextContentFile();
+    textContentFile.value
+      ..Content = 'Some string'
+      ..ContentMimeType = 'application/text'
       ..ContentType = EpubContentType.OTHER
-      ..FileName = "orthros.txt";
+      ..FileName = 'orthros.txt';
 
-    byteContentFile = new EpubByteContentFile()
+    byteContentFile.value = new EpubByteContentFile()
       ..Content = [0, 1, 2, 3]
-      ..ContentMimeType = "application/orthros"
+      ..ContentMimeType = 'application/orthros'
       ..ContentType = EpubContentType.OTHER
-      ..FileName = "orthros.bin";
+      ..FileName = 'orthros.bin';
   });
 
   tearDown(() async {
-    testContent = null;
-    textContentFile = null;
-    byteContentFile = null;
+    testContent.value = null;
+    textContentFile.value = null;
+    byteContentFile.value = null;
   });
-  group("EpubContent", () {
-    group(".equals", () {
-      test("is true for equivalent objects", () async {
-        expect(testContent, equals(reference));
+  group('EpubContent', () {
+    group('.equals', () {
+      test('is true for equivalent objects', () async {
+        expect(testContent.value, equals(reference));
       });
 
-      test("is false when Html changes", () async {
-        testContent.Html["someKey"] = textContentFile;
-        expect(testContent, isNot(reference));
+      test('is false when Html changes', () async {
+        testContent.value.Html['someKey'] = textContentFile.value;
+        expect(testContent.value, isNot(reference));
       });
 
-      test("is false when Css changes", () async {
-        testContent.Css["someKey"] = textContentFile;
-        expect(testContent, isNot(reference));
+      test('is false when Css changes', () async {
+        testContent.value.Css['someKey'] = textContentFile.value;
+        expect(testContent.value, isNot(reference));
       });
 
-      test("is false when Images changes", () async {
-        testContent.Images["someKey"] = byteContentFile;
-        expect(testContent, isNot(reference));
+      test('is false when Images changes', () async {
+        testContent.value.Images['someKey'] = byteContentFile.value;
+        expect(testContent.value, isNot(reference));
       });
 
-      test("is false when Fonts changes", () async {
-        testContent.Fonts["someKey"] = byteContentFile;
-        expect(testContent, isNot(reference));
+      test('is false when Fonts changes', () async {
+        testContent.value.Fonts['someKey'] = byteContentFile.value;
+        expect(testContent.value, isNot(reference));
       });
 
-      test("is false when AllFiles changes", () async {
-        testContent.AllFiles["someKey"] = byteContentFile;
-        expect(testContent, isNot(reference));
+      test('is false when AllFiles changes', () async {
+        testContent.value.AllFiles['someKey'] = byteContentFile.value;
+        expect(testContent.value, isNot(reference));
       });
     });
 
-    group(".hashCode", () {
-      test("is true for equivalent objects", () async {
-        expect(testContent.hashCode, equals(reference.hashCode));
+    group('.hashCode', () {
+      test('is true for equivalent objects', () async {
+        expect(testContent.value.hashCode, equals(reference.hashCode));
       });
 
-      test("is false when Html changes", () async {
-        testContent.Html["someKey"] = textContentFile;
-        expect(testContent.hashCode, isNot(reference.hashCode));
+      test('is false when Html changes', () async {
+        testContent.value.Html['someKey'] = textContentFile.value;
+        expect(testContent.value.hashCode, isNot(reference.hashCode));
       });
 
-      test("is false when Css changes", () async {
-        testContent.Css["someKey"] = textContentFile;
-        expect(testContent.hashCode, isNot(reference.hashCode));
+      test('is false when Css changes', () async {
+        testContent.value.Css['someKey'] = textContentFile.value;
+        expect(testContent.value.hashCode, isNot(reference.hashCode));
       });
 
-      test("is false when Images changes", () async {
-        testContent.Images["someKey"] = byteContentFile;
-        expect(testContent.hashCode, isNot(reference.hashCode));
+      test('is false when Images changes', () async {
+        testContent.value.Images['someKey'] = byteContentFile.value;
+        expect(testContent.value.hashCode, isNot(reference.hashCode));
       });
 
-      test("is false when Fonts changes", () async {
-        testContent.Fonts["someKey"] = byteContentFile;
-        expect(testContent.hashCode, isNot(reference.hashCode));
+      test('is false when Fonts changes', () async {
+        testContent.value.Fonts['someKey'] = byteContentFile.value;
+        expect(testContent.value.hashCode, isNot(reference.hashCode));
       });
 
-      test("is false when AllFiles changes", () async {
-        testContent.AllFiles["someKey"] = byteContentFile;
-        expect(testContent.hashCode, isNot(reference.hashCode));
+      test('is false when AllFiles changes', () async {
+        testContent.value.AllFiles['someKey'] = byteContentFile.value;
+        expect(testContent.value.hashCode, isNot(reference.hashCode));
       });
     });
   });
